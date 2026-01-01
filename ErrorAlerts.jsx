@@ -1,36 +1,36 @@
 import React, { useState } from "react";
 
-export default function Login() {
+export default function ErrorAlerts() {
 
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
-  const [page, setPage] = useState("login");
+  const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const correctUser = "admin";
+  const correctPass = "12345";
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === "" || role === "") {
-      alert("❌ Please enter username and select role!");
+    if (username === "" || password === "") {
+      alert("❌ Please fill all fields!");
       return;
     }
 
-    if (role === "Admin") setPage("admin");
-    else if (role === "User") setPage("user");
-    else if (role === "Trainer") setPage("trainer");
-  };
-
-  const logout = () => {
-    setUsername("");
-    setRole("");
-    setPage("login");
+    if (username === correctUser && password === correctPass) {
+      alert("✔ Login Successful!");
+      setIsLoggedIn(true);
+    } else {
+      alert("❌ Invalid Username or Password!");
+    }
   };
 
   return (
     <div className="container">
 
-      {page === "login" && (
+      {!isLoggedIn ? (
         <>
-          <h1>🔐 Login</h1>
+          <h1>🔑 Login</h1>
           <form onSubmit={handleLogin}>
             <input
               type="text"
@@ -39,39 +39,20 @@ export default function Login() {
               onChange={(e) => setUsername(e.target.value)}
             />
 
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="">Select Role</option>
-              <option value="Admin">Admin</option>
-              <option value="User">User</option>
-              <option value="Trainer">Trainer</option>
-            </select>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
             <button type="submit">Login</button>
           </form>
         </>
-      )}
-
-      {page === "admin" && (
+      ) : (
         <div className="dashboard">
-          <h1>👑 Admin Dashboard</h1>
-          <p>Welcome {username}!</p>
-          <button onClick={logout}>Logout</button>
-        </div>
-      )}
-
-      {page === "user" && (
-        <div className="dashboard">
-          <h1>🙋 User Dashboard</h1>
-          <p>Welcome {username}!</p>
-          <button onClick={logout}>Logout</button>
-        </div>
-      )}
-
-      {page === "trainer" && (
-        <div className="dashboard">
-          <h1>🏋️ Trainer Dashboard</h1>
-          <p>Welcome {username}!</p>
-          <button onClick={logout}>Logout</button>
+          <h1>🎉 Welcome {username}</h1>
+          <p>You are logged in successfully.</p>
         </div>
       )}
 
@@ -79,7 +60,7 @@ export default function Login() {
         body {
           margin: 0;
           font-family: 'Segoe UI', sans-serif;
-          background: linear-gradient(135deg, #232526, #414345);
+          background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
         }
 
         .container {
@@ -100,7 +81,7 @@ export default function Login() {
           width: 300px;
         }
 
-        input, select {
+        input {
           margin-bottom: 15px;
           padding: 10px;
           border-radius: 8px;
